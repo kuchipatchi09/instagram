@@ -1,27 +1,47 @@
-# Quietgram HTML — iPad Safari edition
+# Quietgram — Stories & DM, without the endless scroll
 
-## What is actually functional?
-- `Quietgram.user.js`: A Safari Userscripts script which runs **on instagram.com** and displays the *real, logged-in* site's Stories and DMs. It does not fetch Instagram private APIs or store your login. It hides/blocklists feed/Reels/Explore links and hides the rest of the home feed.
-- `preview.html`: A self-contained **design mockup** matching the screenshot. Example friends/messages are placeholders; it cannot show actual Instagram stories/DM inside the HTML file.
+Quietgram is a minimalist, unofficial Instagram Web companion designed for iPad and iPhone Safari.
 
-## Install without a Mac (iPad)
-1. Install **Userscripts** by quoid from the App Store: https://apps.apple.com/app/userscripts/id1463298887
-2. Open Userscripts once and select its scripts folder. Find that folder in the Files app (often On My iPad → Userscripts).
-3. Copy **Quietgram.user.js** into the folder. The filename must end with `.user.js`.
-4. In Settings → Apps → Safari → Extensions (menu wording varies), enable Userscripts. Grant website permission for **instagram.com**, or follow the extension's on-screen instructions.
-5. Visit `https://www.instagram.com/` in Safari, and sign in **only on Instagram's own website**.
-6. Refresh. The fixed minimalist header/footer should appear on home and DM screens. On Home, the actual Instagram Story carousel is preserved when the script can locate it. If no carousel is found, a fallback appears after a few seconds instead of fictional content.
-7. DM navigates to `https://www.instagram.com/direct/inbox/`. Stories uses Instagram's real home Story tray. After opening a story, native Instagram controls take over.
+## Live site
 
-## Limitations / safety
-- Native iPhone/iPad Instagram **app** is unaffected; this only modifies Safari's instagram.com page.
-- Instagram may change the DOM and remove story links; there is no universal public endpoint for all followed accounts' story feeds. In that case the interface cannot restore missing stories, and the 'show original web' option is provided.
-- The script blocks navigation, not Instagram's server, and is **not** a security boundary. Browser back navigation, other tabs, or disabling Userscripts can bypass it.
-- In some versions of Instagram Web, Stories or DM options differ from the official app. Use Preview for design only.
-- The script does not read passwords, cookies, messages or story media, and sends no data to third parties. Install only code you trust, as any userscript allowed on Instagram can potentially read webpage content.
+Once GitHub Pages is enabled for this repository using **main / (root)**:
 
-## Testing
-- Open a real story from a native story circle; verify the story viewer controls still work.
-- Open DM and send a test message.
-- Tap a Reels or post link: it should be blocked.
-- If real story icons do not appear, first turn off the script and confirm whether the native Instagram web homepage shows them. If not, CSS/JS cannot recreate them without access to private Instagram APIs.
+https://kuchipatchi09.github.io/instagram/
+
+The landing page is `index.html`, and is installable to the Home Screen via Safari's **Share → Add to Home Screen**.
+
+## What works
+
+- A responsive, dark Quietgram landing page on GitHub Pages.
+- Links to **Instagram's official sign-in** (`https://www.instagram.com/accounts/login/`) and real Instagram Web Stories/home and DM inbox.
+- A separate `Quietgram.user.js` userscript that changes the real `instagram.com` page in Safari, hiding feed/Reels/Explore as a best-effort UI modification.
+- No custom account database, credentials collection, or password form.
+- App manifest and icon for home-screen use.
+
+## Important limitation
+
+**A standalone GitHub Pages website cannot display ordinary Instagram users' authenticated friend stories and private DMs inside its own domain.** Instagram Web cannot be embedded reliably into a third-party iframe due to browser/embed restrictions; a static site cannot read `instagram.com` cookies or private Instagram API responses. There is no generic official API for accessing arbitrary personal-account stories and DM inboxes.
+
+The real content stays on **instagram.com**, where you sign in directly. This design intentionally avoids copying Instagram sign-in screens or collecting passwords.
+
+The story circles and message skeletons on the landing page are **visual decoration only**, not contacts or message previews.
+
+## iPad install — actual feed reduction
+
+1. Install [Userscripts for Safari](https://apps.apple.com/app/userscripts/id1463298887) and choose a scripts folder.
+2. Download [Quietgram.user.js](https://raw.githubusercontent.com/kuchipatchi09/instagram/main/Quietgram.user.js) and move it to that folder.
+3. Turn on the Userscripts extension under iPad Settings → Apps → Safari → Extensions. Allow access to `instagram.com`.
+4. Open `https://www.instagram.com/` in Safari and sign in **only on the official Instagram website**.
+5. Refresh. Stories appear if Instagram Web currently provides its native story carousel and the userscript can detect it. DM opens at `/direct/inbox/`.
+
+**This does not alter the official Instagram app.** The script is best effort and may break when the Instagram website changes. Never place passwords, login cookies or session tokens in GitHub files. Review any userscript before installing: it is powerful code running on an authenticated website.
+
+## Repository
+
+- `index.html` — production homepage / PWA entrypoint
+- `manifest.webmanifest`, `icon.svg` — web app metadata
+- `Quietgram.user.js` — Safari Instagram UI modification
+- `preview.html` — original non-functional design mockup
+- `test.js`, `package.json` — original script smoke tests
+
+Quietgram is an independent personal project, not affiliated with Instagram or Meta.
