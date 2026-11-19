@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080809"><title>Quietgram · Private access</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100dvh;display:grid;place-items:center;background:#080809;color:#faf9fb;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",system-ui,sans-serif}
+main{width:min(92vw,420px);padding:32px;border:1px solid #353038;border-radius:25px;background:#151317;box-shadow:0 25px 80px #0008}
+.logo{font-size:27px;font-weight:800;letter-spacing:-1px}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.17em;color:#e487ab;margin-top:12px}
+h1{font-size:28px;line-height:1.22;letter-spacing:-.05em;margin:34px 0 10px}
+p{color:#ada7b1;font-size:14px;line-height:1.75}
+label{display:block;font-size:12px;font-weight:700;color:#c8bfc9;margin:27px 0 9px}
+input{width:100%;height:52px;border:1px solid #49404a;border-radius:12px;background:#232027;color:white;font:inherit;padding:0 15px}
+button{width:100%;border:0;background:#f7eff4;color:#160d13;border-radius:12px;min-height:52px;font:inherit;font-weight:760;margin-top:12px;cursor:pointer}
+small{display:block;margin-top:20px;color:#908891;line-height:1.7}
+</style></head>
+<body><main>
+<div class="logo">Quietgram</div>
+<div class="eyebrow">Private remote beta</div>
+<h1>스토리와 DM만 남기는<br>나만의 웹 공간.</h1>
+<p>여기서 입력하는 것은 <b>Quietgram 서버 접근 코드</b>야. Instagram 비밀번호가 아니야.</p>
+<form method="post" action="/unlock" autocomplete="off">
+<label for="code">PRIVATE ACCESS CODE</label>
+<input type="password" name="code" id="code" minlength="16" required autocomplete="off" placeholder="개인 서버 접근 코드">
+<button type="submit">Quietgram 열기 →</button>
+</form>
+<small>보안 안내: 이 서비스는 로그인된 Instagram을 원격 브라우저로 전송하는 실험적 방식이야. 서버 운영자는 세션에 접근할 수 있으므로 타인이 운영하는 서버에서는 Instagram 로그인을 하지 마. 직접 운영하는 개인 서버에서만 사용해.</small>
+</main></body></html>
