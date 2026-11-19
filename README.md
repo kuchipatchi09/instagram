@@ -1,46 +1,31 @@
-# Quietgram — Web only
+# Quietgram
 
-Quietgram is a minimal, browser-only companion for Instagram Stories and DMs.
+An independent, minimalist Instagram Stories & DM experiment for iPad/iPhone browsers.
 
-**Hosted site:** https://kuchipatchi09.github.io/instagram/  
-**Safari bookmarklet installation:** https://kuchipatchi09.github.io/instagram/setup.html
+## Current project: Quietgram Remote (full-stack prototype)
 
-## What it does
+**Project homepage:** https://kuchipatchi09.github.io/instagram/  
+**Full-stack source:** [remote/server.js](remote/server.js) + [remote/public/app.html](remote/public/app.html)  
+**Deployment guide:** [REMOTE-README.md](REMOTE-README.md)  
+**Private server deployment:** https://render.com/deploy?repo=https://github.com/kuchipatchi09/instagram
 
-The GitHub Pages site is a starter page, not a clone of Instagram's authenticated inbox. To use your *real* Stories and DMs without an app or extension:
+Quietgram Remote runs a real Instagram website in an ephemeral server-side Chromium browser and streams its screen to a private web app. It provides navigation buttons for real Stories and DMs, best-effort feed/Reels hiding, and a typing/touch relay.
 
-1. Open the [setup page](https://kuchipatchi09.github.io/instagram/setup.html) in Safari.
-2. Bookmark the setup page, tap **Quietgram 코드 복사**, and replace your bookmark's URL with the copied `javascript:` address.
-3. Sign in on [Instagram's official login](https://www.instagram.com/accounts/login/).
-4. While browsing `instagram.com`, activate your Quietgram bookmark.
-5. Quietgram overlays a minimal Stories/DM navigation and attempts to hide the feed, Reels, and Explore UI. This operates only in that Instagram tab. Reloading or navigating to a new page may require rerunning the bookmarklet.
+**This is experimental, not verified against a real Instagram login.** Instagram may block automated browser sessions and restrict accounts. The server operator can technically access credentials and sessions. Use only a trusted private deployment and a private access code. Never commit Instagram passwords, cookies, tokens or your Quietgram access code.
 
-You can inspect the entire script in [Quietgram.bookmarklet.js](./Quietgram.bookmarklet.js). It makes no third-party API calls and does not collect passwords, tokens, cookies or message content.
+GitHub Pages does **not** host the remote browser; it hosts the homepage and deployment launcher. You must deploy the server yourself. The Render plan in `render.yaml` is a paid 2 GB instance; review costs before approving deployment.
 
-## Why can't this work fully inside quietgram.github.io?
+## Other optional mode
 
-A third-party static website cannot read personal Instagram account session cookies or fetch the complete logged-in Stories/DM experience from another origin. Embedding the actual site inside an iframe is blocked or unreliable due to security headers and browser restrictions. Meta's supported APIs do not provide arbitrary personal accounts' full friend Stories and private inboxes to third-party clients. Claiming otherwise would create a misleading or unsafe sign-in experience.
+The original browser-only bookmarklet and Safari Userscripts version remain in this repository:
+- [Bookmarklet setup](setup.html), code [Quietgram.bookmarklet.js](Quietgram.bookmarklet.js)
+- [Safari Userscripts mode](Quietgram.user.js)
+- [Static design preview](preview.html)
 
-The provided solution works **on the official instagram.com website**, uses its actual account session, and does not ask the user to enter credentials on Quietgram.
+These modify the official `instagram.com` page locally rather than hosting Instagram content on another domain.
 
-## Limitations
+## Validation
 
-- This does **not** modify the official Instagram iOS app.
-- Stories only appear if Instagram Web provides a story carousel that the script can locate; its DOM may change.
-- It is not a secure or unbypassable content filter.
-- The bookmarklet is page-local and may have to be activated again.
-- User scripts and bookmarklets are powerful. Read the source before running it on an authenticated webpage.
-- Cross-origin rules mean real DM/story previews cannot be listed on the GitHub Pages landing screen.
-- No real-device iPad Safari or Instagram account test has been completed.
+Code syntax and original URL rules have passed checks. The GitHub Pages workflow has completed, but full remote authentication, touch interactions, account restrictions and Stories/DM usability require a live private server and an account to test.
 
-## Files
-
-- `index.html` — responsive Quietgram landing page
-- `setup.html` — Safari bookmarklet copy/setup
-- `Quietgram.bookmarklet.js` — page-local UI overlay on instagram.com
-- `Quietgram.user.js` — older optional Safari Userscripts variant
-- `manifest.webmanifest`, `icon.svg` — optional home-screen assets
-- `preview.html` — static design-only mockup
-- `test.js`, `package.json` — legacy userscript smoke tests
-
-Quietgram is an independent project and is not affiliated with Meta or Instagram.
+This unofficial project is not affiliated with Meta or Instagram.
