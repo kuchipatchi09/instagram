@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#09090a"><meta name="apple-mobile-web-app-capable" content="yes">
+<title>Quietgram · Stories & DM</title>
+<style>
+:root{color-scheme:dark;--bg:#09090b;--panel:#151417;--line:#302d33;--pink:#e45e92;--muted:#9f98a3}
+*{box-sizing:border-box}body{background:var(--bg);color:#f6f3f7;font:14px -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",system-ui,sans-serif;margin:0;-webkit-font-smoothing:antialiased}
+button,input{font:inherit}button{cursor:pointer}.wrap{max-width:920px;margin:auto;padding:22px 20px 50px}
+header{display:flex;align-items:center;justify-content:space-between;padding:5px 0 18px;border-bottom:1px solid #222025}
+.logo{font-size:24px;font-weight:800;letter-spacing:-1px}.tag{font-size:11px;letter-spacing:.12em;color:#e29db7;font-weight:760}
+.intro{color:#a8a0aa;line-height:1.7;margin:18px 0;font-size:13px}
+.grid{display:grid;grid-template-columns:minmax(0,490px) 1fr;gap:24px;align-items:start}
+.viewer{background:#0a090b;border:1px solid #38323a;border-radius:23px;overflow:hidden;box-shadow:0 20px 60px #0009}
+.viewer-top{padding:13px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #282429}
+.viewer-top b{font-size:14px}.state{display:flex;align-items:center;gap:7px;color:#a5a0aa;font-size:11px}.dot{height:7px;width:7px;border-radius:100%;background:#737078}.dot.connected{background:#69d7a3}
+.capture{position:relative;margin:auto;aspect-ratio:420/780;max-height:calc(100dvh - 236px);width:auto;background:#131217;display:grid;place-items:center;overflow:hidden}
+.capture img{width:100%;height:100%;object-fit:fill;display:none;touch-action:none;user-select:none;-webkit-user-select:none}
+.capture img.visible{display:block}
+.loading{font-size:13px;color:#b2aab4;padding:35px;text-align:center;line-height:1.8}
+.loading.hidden{display:none}
+.nav{display:flex;border-top:1px solid #2b272d;background:#121013}
+.nav button{flex:1;border:0;background:transparent;color:#e8dce4;padding:14px 0;font-weight:650;display:flex;gap:8px;justify-content:center;align-items:center}
+.nav button:first-child{border-right:1px solid #272329}
+.nav svg{width:19px;height:19px}
+.controls{padding:19px;border:1px solid #342f37;border-radius:23px;background:#161318}
+.controls h2{font-size:16px;margin:0 0 13px;letter-spacing:-.02em}
+.controls p{font-size:13px;line-height:1.7;color:#afa6b0;margin:0 0 17px}
+.input-box{display:flex;gap:9px;margin:9px 0 8px}
+.input-box input{min-width:0;flex:1;height:44px;border-radius:10px;background:#242028;color:white;border:1px solid #47404a;padding:0 11px}
+.control{border:1px solid #564653;border-radius:10px;background:#2b242b;color:#f7eef5;padding:10px 12px}
+.send{background:#e36b98;border-color:#e36b98;color:#160b12;font-weight:780}
+.keys{display:flex;flex-wrap:wrap;gap:7px}
+.keys button{font-size:12px;background:#262128;border:1px solid #403942;border-radius:9px;padding:9px 11px;color:#ded5de}
+.notice{margin-top:16px;background:#28212a;border:1px solid #493643;border-radius:12px;color:#f5dce9;font-size:12px;line-height:1.7;padding:13px;min-height:44px}
+.security{font-size:12px;color:#978e9b;line-height:1.8;margin-top:20px}
+.exit{border:1px solid #50404c;border-radius:9px;background:transparent;padding:10px 12px;color:#f1c8db;font-weight:650}
+.message{color:#928a97;font-size:12px;padding:12px 0}
+@media(max-width:700px){
+.wrap{padding:14px 12px 40px}.logo{font-size:21px}.grid{grid-template-columns:1fr;gap:16px}.capture{max-height:68dvh}.controls{padding:17px}.intro{margin:12px 0;font-size:12px}
+}
+</style>
+</head>
+<body><div class="wrap">
+<header><div class="logo">Quietgram</div><div class="tag">PRIVATE REMOTE · BETA</div></header>
+<p class="intro">Instagram 웹을 원격으로 보여주는 실험용 개인 앱이야. 실제 Instagram 로그인은 아래 원격 화면에서 진행해. 처음 화면이 뜰 때까지 다소 지연될 수 있어.</p>
+<div class="grid">
+<section class="viewer" aria-label="Instagram 원격 화면">
+  <div class="viewer-top"><b>Instagram Web</b><div class="state"><span id="dot" class="dot"></span><span id="state">연결 중…</span></div></div>
+  <div class="capture" id="capture">
+    <div class="loading" id="loading">원격 브라우저를 준비하고 있어.<br>Instagram 로그인 화면이 여기에 표시돼.</div>
+    <img id="screen" alt="로그인된 Instagram 웹 화면. 화면을 터치하면 원격 브라우저에서 클릭해." draggable="false">
+  </div>
+  <nav class="nav" aria-label="Quietgram Navigation">
+    <button id="stories" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4z"/></svg>스토리</button>
+    <button id="dm" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11a9 9 0 0 1-9 9 9 9 0 0 1-4-.9L3 20l1.3-4A9 9 0 1 1 21 11Z"/></svg>DM</button>
+  </nav>
+</section>
+<aside class="controls">
+  <h2>원격 화면 조작</h2>
+  <p>화면에서 로그인 입력칸이나 메시지 입력칸을 먼저 눌러. 그다음 아래 입력창에 내용을 입력해 <b>보내기</b>를 누르면 선택한 Instagram 입력칸에 전달돼.</p>
+  <label for="typing" style="font-size:12px;color:#a7a0a9">원격 입력 — 아이디·비밀번호·메시지</label>
+  <div class="input-box"><input id="typing" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="원격 필드 선택 후 입력"><button type="button" class="control send" id="type">보내기</button></div>
+  <div class="keys">
+    <button type="button" data-key="Tab">다음 칸 (Tab)</button>
+    <button type="button" data-key="Enter">확인 (Enter)</button>
+    <button type="button" data-key="Backspace">⌫ 삭제</button>
+    <button type="button" id="masked">입력 숨기기</button>
+    <button type="button" id="scrollUp">↑ 위로</button>
+    <button type="button" id="scrollDown">↓ 아래로</button>
+  </div>
+  <div class="notice" id="notice" role="status" aria-live="polite">준비 중이야. 서버가 Instagram 로그인·스토리·DM을 표시할 수 있는지 실제로 확인해야 해.</div>
+  <p class="security">보안: 이 입력창의 텍스트는 원격 서버로 전달돼. 서버 운영자는 기술적으로 로그인 내용과 세션에 접근할 수 있어. <b>본인 소유의 비공개 서버에서만 사용해.</b> 입력·쿠키·화면은 파일로 저장하지 않도록 구현했지만 호스팅 사업자의 서버를 절대적으로 신뢰할 수 있는 것은 아니야.</p>
+  <form action="/logout" method="post"><button class="exit" type="submit">원격 세션 종료</button></form>
+</aside>
+</div>
+<p class="message" id="location">Instagram 화면이 연결되면 주소가 표시돼.</p>
+</div>
+<script>
+(()=>{
+'use strict';
+const img=document.getElementById('screen'),state=document.getElementById('state'),dot=document.getElementById('dot'),loading=document.getElementById('loading');
+const notice=document.getElementById('notice'),input=document.getElementById('typing'),capture=document.getElementById('capture');
+let ws=null,position=null,waiting=false;
+const WIDTH=420,HEIGHT=780;
+const say=text=>{notice.textContent=text;};
+function send(obj){if(ws&&ws.readyState===WebSocket.OPEN)ws.send(JSON.stringify(obj));}
+function connect(){
+  const protocol=location.protocol==='https:'?'wss:':'ws:';
+  ws=new WebSocket(protocol+'//'+location.host+'/stream');
+  ws.onopen=()=>{state.textContent='브라우저 시작 중';say('개인 원격 브라우저에 연결했어. 잠시 뒤 Instagram 화면이 나타나.');};
+  ws.onmessage=evt=>{
+    let msg;try{msg=JSON.parse(evt.data);}catch{return;}
+    if(msg.type==='frame'){
+      img.src='data:image/jpeg;base64,'+msg.data;
+      if(!img.classList.contains('visible')){img.classList.add('visible');loading.classList.add('hidden');}
+    }else if(msg.type==='ready'){
+      state.textContent='연결됨';dot.classList.add('connected');say('실제 Instagram 로그인 화면에서 로그인해. 스토리/DM 버튼으로 이동할 수 있어.');
+    }else if(msg.type==='notice'||msg.type==='error'){
+      say(msg.message||'문제가 발생했어.');
+    }else if(msg.type==='location'){document.getElementById('location').textContent=msg.url||'';}
+  };
+  ws.onclose=()=>{
+    state.textContent='연결 끊김';dot.classList.remove('connected');
+    say('연결이 종료됐어. 다시 접속 중이야.');
+    setTimeout(connect,3000);
+  };
+  ws.onerror=()=>say('연결에 문제가 있어. HTTPS 설정과 서버 실행 상태를 확인해.');
+}
+function coords(event){
+  const r=img.getBoundingClientRect();
+  return {x:(event.clientX-r.left)*WIDTH/r.width,y:(event.clientY-r.top)*HEIGHT/r.height};
+}
+img.addEventListener('pointerdown',evt=>{
+  if(evt.pointerType!=='touch'&&evt.pointerType!=='pen'&&evt.pointerType!=='mouse')return;
+  position={x:evt.clientX,y:evt.clientY,at:Date.now(),pointerId:evt.pointerId};
+});
+img.addEventListener('pointerup',evt=>{
+  if(!position||position.pointerId!==evt.pointerId)return;
+  const dx=evt.clientX-position.x,dy=evt.clientY-position.y;
+  if(Math.hypot(dx,dy)<20)send({type:'tap',...coords(evt)});
+  else if(Math.abs(dy)>25)send({type:'scroll',y:Math.max(-600,Math.min(600,-dy*2))});
+  position=null;
+});
+img.addEventListener('pointercancel',()=>{position=null;});
+img.addEventListener('dragstart',e=>e.preventDefault());
+document.getElementById('stories').addEventListener('click',()=>send({type:'nav',target:'stories'}));
+document.getElementById('dm').addEventListener('click',()=>send({type:'nav',target:'dm'}));
+document.querySelectorAll('[data-key]').forEach(btn=>btn.addEventListener('click',()=>send({type:'key',key:btn.dataset.key})));
+document.getElementById('scrollUp').addEventListener('click',()=>send({type:'scroll',y:-420}));
+document.getElementById('scrollDown').addEventListener('click',()=>send({type:'scroll',y:420}));
+document.getElementById('masked').addEventListener('click',()=>{
+  input.type=input.type==='password'?'text':'password';
+  document.getElementById('masked').textContent=input.type==='password'?'입력 보이기':'입력 숨기기';
+  input.focus();
+});
+document.getElementById('type').addEventListener('click',()=>{
+  const value=input.value;
+  if(!value)return;
+  send({type:'type',text:value});
+  input.value='';
+  say('선택한 Instagram 입력칸에 전송했어. 확인하려면 원격 화면을 봐.');
+});
+input.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){e.preventDefault();document.getElementById('type').click();}
+});
+connect();
+})();
+</script>
+</body></html>
