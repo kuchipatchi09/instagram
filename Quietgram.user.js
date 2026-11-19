@@ -1,8 +1,10 @@
 // ==UserScript==
 // @name         Quietgram — Stories + DM Only
-// @namespace    https://local.quietgram/
-// @version      0.2.0
-// @description  Simplifies instagram.com to real Stories and real DMs; blocks feed, reels and explore navigation.
+// @namespace    https://kuchipatchi09.github.io/instagram/
+// @version      0.3.0
+// @description  Keeps Instagram Web Stories and DMs while reducing feed, Reels and Explore. Login stays on instagram.com.
+// @downloadURL  https://raw.githubusercontent.com/kuchipatchi09/instagram/main/Quietgram.user.js
+// @updateURL    https://raw.githubusercontent.com/kuchipatchi09/instagram/main/Quietgram.user.js
 // @match        https://www.instagram.com/*
 // @match        https://instagram.com/*
 // @run-at       document-idle
@@ -10,7 +12,7 @@
 // ==/UserScript==
 
 /*
- * Quietgram 0.2 • personal browser UI modification
+ * Quietgram 0.3 • personal browser UI modification
  * No API calls, no password handling, no content uploading.
  * Instagram's interface changes frequently: story discovery is best effort.
  */
@@ -107,7 +109,7 @@
         .empty button {background:#333;color:#fff;border:1px solid #555;border-radius:10px;padding:11px 16px;cursor:pointer;}
         .empty.visible {display:block;}
       </style>
-      <header class="top"><div class="brand">${icon('instagram')}<span>Instagram Lite</span></div><div class="tag">QUIET MODE</div></header>
+      <header class="top"><div class="brand">${icon('instagram')}<span>Quietgram</span></div><div class="tag">STORIES + DM</div></header>
       <div class="story-heading">STORIES</div>
       <div class="empty" role="status"><b>스토리 목록을 찾지 못했어요</b><p>인스타그램 웹에서 스토리 영역을 제공하지 않거나 웹페이지 구조가 변경되었을 수 있어요. 실제 로그인된 인스타그램에서 확인해야 해요.</p><button type="button" id="original">이번 탭에서 원본 웹 보기</button></div>
       <footer class="bottom" aria-label="Quietgram navigation">
