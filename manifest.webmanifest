@@ -1,0 +1,18 @@
+{
+  "name": "Quietgram — Stories & DM",
+  "short_name": "Quietgram",
+  "description": "Instagram 스토리와 DM 중심의 미니멀 시작 화면",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080809",
+  "theme_color": "#080809",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
