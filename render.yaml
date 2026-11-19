@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: quietgram-remote
+    runtime: docker
+    plan: 1c-2g
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: APP_ACCESS_CODE
+        sync: false
+      - key: MAX_SESSIONS
+        value: "1"
