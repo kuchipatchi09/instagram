@@ -1,0 +1,1 @@
+{"name":"quietgram-html","private":true,"scripts":{"check":"node --check Quietgram.user.js && node test.js"}}

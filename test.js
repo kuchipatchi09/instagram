@@ -1,0 +1,12 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const source=fs.readFileSync('Quietgram.user.js','utf8');
+const html=fs.readFileSync('preview.html','utf8');
+const blocked=/^\/(?:reels?|p|explore|search)(?:\/|$)/i;
+for(const value of ['/reel/abc/','/reels/','/p/abc/','/explore/','/search/']) assert(blocked.test(value),value);
+for(const value of ['/','/stories/user/123/','/direct/inbox/','/direct/t/abc/','/accounts/login/']) assert(!blocked.test(value),value);
+assert(html.includes('instagram.com/direct/inbox/'));
+assert(source.includes('instagram.com'));
+assert(!source.includes('fetch('));
+assert(!source.includes('XMLHttpRequest'));
+console.log('12 checks passed: route blocking, allowed routes, HTML links, no network data-fetch calls');

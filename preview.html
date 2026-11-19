@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>Quietgram — Stories & DM</title>
+  <style>
+    :root {color-scheme:dark;--bg:#000;--card:#242424;--surface:#1b1b1b;--muted:#aaa;--pink:#dc548a;--line:#252525;}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:white;font:16px -apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+    button,a{font:inherit}button{cursor:pointer}.app{max-width:1360px;margin:auto;padding:26px clamp(20px,4vw,55px) 122px;min-height:100dvh}
+    .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:29px}.brand{display:flex;align-items:center;gap:16px;font-size:clamp(24px,3.5vw,35px);font-weight:740;letter-spacing:-1.2px}.muted{color:var(--muted)}.label{font-size:clamp(11px,1.4vw,15px);letter-spacing:.1em;font-weight:700;color:#b8b8b8}
+    .storyPanel{border-radius:23px;background:var(--card);padding:27px 24px 24px}.storyRow{display:flex;gap:24px;margin-top:21px;overflow-x:auto;padding-bottom:3px;scrollbar-width:none}.storyRow::-webkit-scrollbar{display:none}.person{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:81px;max-width:88px;background:none;border:0;color:#d5d5d5;text-align:center;font-size:14px;white-space:nowrap}
+    .ring{width:78px;height:78px;border:3px solid var(--pink);border-radius:50%;padding:4px;display:grid;place-items:center}.ring-inner{background:#303030;border-radius:50%;width:100%;height:100%;display:grid;place-items:center}.ring-inner svg{width:27px;color:#b8b8b8}.person.mine .ring{border-color:#4a4a4a}
+    .hint{margin:16px 2px 0;color:#999;font-size:12px}.messageHead{display:flex;align-items:center;justify-content:space-between;margin:30px 0 13px}.messageHead h2{margin:0;font-size:23px;letter-spacing:-.6px}.open{color:#ddd;text-decoration:none;display:flex;align-items:center;gap:6px;border:1px solid #333;padding:8px 12px;border-radius:12px;font-size:12px}
+    .thread{width:100%;display:flex;align-items:center;gap:20px;text-align:left;color:white;border:0;background:transparent;border-bottom:1px solid #111;padding:21px 0}.avatar{border-radius:100%;background:#2e2e2e;width:63px;height:63px;flex:none;display:grid;place-items:center}.avatar svg{width:30px;color:#a9a9a9}.info{flex:1;display:flex;flex-direction:column;gap:7px}.info strong{font-size:19px}.info small{font-size:14px;color:#aaa}.arrow{font-size:32px;font-weight:200;color:#777}
+    .tabs{position:fixed;bottom:0;left:0;right:0;height:calc(83px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:#040404;border-top:1px solid var(--line);display:flex;justify-content:center;z-index:3}.tabsInner{max-width:1250px;width:100%;display:flex}.tabs button{flex:1;background:transparent;border:0;color:#999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;font-size:13px}.tabs button.active{color:#fff}.tabs button svg{width:22px;height:22px}.pill{display:inline-flex;font-size:11px;color:#bbb;border:1px solid #444;padding:4px 8px;border-radius:99px;vertical-align:middle;margin-left:10px;font-weight:500}
+    [hidden]{display:none!important}.shade{position:fixed;inset:0;background:#000b;display:grid;place-items:center;padding:18px;z-index:10}.dialog{width:min(100%,420px);background:#242424;border:1px solid #383838;border-radius:20px;padding:26px}.dialog h3{margin:0 0 10px}.dialog p{color:#bbb;line-height:1.65;font-size:14px}.dialogActions{display:flex;gap:10px}.dialogActions a,.dialogActions button{flex:1;display:grid;place-items:center;text-align:center;color:white;text-decoration:none;border:1px solid #484848;background:#333;padding:12px 8px;border-radius:11px;font-size:13px}.dialogActions a{background:#ca487e;border-color:#ca487e}
+    @media(min-width:750px){.app{padding-top:36px}.storyRow{gap:33px}.storyPanel{padding:30px 32px}.person{min-width:94px}.ring{width:89px;height:89px}.messageHead{margin-top:35px}.thread{padding:29px 0}} 
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="top"><div class="brand"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram Lite</span></div><div class="muted" style="font-size:13px">UI PREVIEW</div></header>
+    <section id="storiesScreen" aria-label="스토리 미리보기"><div class="storyPanel"><div class="label">STORIES <span class="pill">디자인 시안</span></div><div class="storyRow" id="people"></div></div>
+    <p class="hint">이 HTML 파일의 친구 이름은 예시야. 실제 스토리는 Instagram 웹에 적용하는 Quietgram.user.js에서 볼 수 있어.</p></section>
+    <section id="messagesScreen"><div class="messageHead"><h2>메시지</h2><a class="open" href="https://www.instagram.com/direct/inbox/" target="_blank" rel="noopener">실제 DM 열기 ↗</a></div><div id="threads"></div></section>
+  </div>
+  <nav class="tabs"><div class="tabsInner"><button class="active" id="storiesButton" aria-label="스토리 탭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4z"/></svg>스토리</button><button id="dmButton" aria-label="DM 탭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.4a9 9 0 0 1-9 9 9 9 0 0 1-4.1-.9L3 20l1.3-4A9 9 0 1 1 21 11.4Z"/></svg>DM</button></div></nav>
+  <div id="shade" class="shade" hidden><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle"><h3 id="dialogTitle">실제 스토리 보기</h3><p>이 화면은 디자인 미리보기라 실제 계정 정보가 없어. 실제 스토리를 보려면 Safari에서 Instagram에 로그인하고 Quietgram 사용자 스크립트를 실행해야 해.</p><div class="dialogActions"><button id="closeModal">닫기</button><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram 열기 ↗</a></div></div></div>
+  <script>
+    const profileIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c0-4 2.8-6 7-6s7 2 7 6"/></svg>';
+    const people=document.getElementById('people');
+    ['내 스토리','친구 A','친구 B','친구 C','친구 D','친구 E'].forEach((name,i)=>{
+      const button=document.createElement('button');button.className='person'+(i===0?' mine':'');button.innerHTML=`<span class="ring"><span class="ring-inner">${i===0?'<span style="font-size:32px;color:#bbb">+</span>':profileIcon}</span></span><span>${name}</span>`;
+      button.addEventListener('click',()=>{document.getElementById('shade').hidden=false;});people.appendChild(button);
+    });
+    const threads=document.getElementById('threads');
+    [['친구 A','사진 보냈어!'],['친구 B','ㅋㅋㅋㅋ 내일 보자'],['친구 C','메시지를 보냈습니다']].forEach(([name,preview])=>{
+      const button=document.createElement('button');button.className='thread';button.innerHTML=`<span class="avatar">${profileIcon}</span><span class="info"><strong>${name}</strong><small>${preview}</small></span><span class="arrow">›</span>`;
+      button.addEventListener('click',()=>window.open('https://www.instagram.com/direct/inbox/','_blank','noopener'));
+      threads.appendChild(button);
+    });
+    const storyBtn=document.getElementById('storiesButton'),dmBtn=document.getElementById('dmButton');
+    function switchTab(story){storyBtn.classList.toggle('active',story);dmBtn.classList.toggle('active',!story);(story?document.getElementById('storiesScreen'):document.getElementById('messagesScreen')).scrollIntoView({behavior:'smooth',block:'start'});}
+    storyBtn.addEventListener('click',()=>switchTab(true));dmBtn.addEventListener('click',()=>switchTab(false));
+    document.getElementById('closeModal').addEventListener('click',()=>document.getElementById('shade').hidden=true);
+    document.getElementById('shade').addEventListener('click',e=>{if(e.target.id==='shade')e.currentTarget.hidden=true;});
+
+  </script>
+</body>
+</html>
