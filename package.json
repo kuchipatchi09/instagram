@@ -1,1 +1,16 @@
-{"name":"quietgram-html","private":true,"scripts":{"check":"node --check Quietgram.user.js && node test.js"}}
+{
+  "name": "quietgram-remote",
+  "version": "0.4.0",
+  "private": true,
+  "description": "Private remote-browser Instagram Stories and DM proof of concept",
+  "main": "remote/server.js",
+  "scripts": {
+    "start": "node remote/server.js",
+    "check": "node --check remote/server.js && node --check Quietgram.user.js && node --check Quietgram.bookmarklet.js && node test.js"
+  },
+  "dependencies": {
+    "express": "5.1.0",
+    "ws": "8.18.3",
+    "playwright": "1.65.1"
+  }
+}
