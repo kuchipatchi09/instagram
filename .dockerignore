@@ -1,0 +1,7 @@
+.git
+.github
+node_modules
+*.log
+.env*
+preview-screenshot.png
+Quietgram-HTML-iPad.zip
