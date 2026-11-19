@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080809">
+  <meta name="description" content="Quietgram — Instagram의 스토리와 DM은 이어가고, 끝없는 피드와 릴스는 줄이세요.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Quietgram">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <title>Quietgram · stories & messages only</title>
+  <style>
+    :root{color-scheme:dark;--bg:#080809;--sheet:#111113;--sheet2:#171719;--outline:#28282b;--txt:#f5f4f6;--soft:#d4d1d7;--muted:#9b98a1;--accent:#ec6396;--accent2:#ff9d77;--r:24px}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+    .wrap{max-width:920px;margin:0 auto;padding:0 24px}
+    .site-header{height:88px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #19191a}
+    .logo{display:inline-flex;align-items:center;gap:12px;font-size:24px;font-weight:780;letter-spacing:-.8px}
+    .logo svg{height:30px;width:30px}
+    .version{font-size:12px;color:var(--muted);letter-spacing:.12em;font-weight:700}
+    .hero{padding:64px 0 40px}
+    .eyebrow{font-size:12px;color:var(--accent);font-weight:760;letter-spacing:.18em;text-transform:uppercase;margin:0 0 18px}
+    h1{margin:0;font-size:clamp(38px,6.6vw,65px);line-height:1.13;font-weight:790;letter-spacing:-.065em;max-width:730px;word-break:keep-all}
+    h1 em{font-style:normal;background:linear-gradient(110deg,var(--accent),var(--accent2));color:transparent;background-clip:text;-webkit-background-clip:text}
+    .lead{margin:22px 0 30px;color:#b6b2bb;line-height:1.8;font-size:16px;max-width:650px;word-break:keep-all}
+    .actions{display:flex;flex-wrap:wrap;gap:10px}
+    .button{min-height:49px;padding:0 20px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid #39363d;font-size:14px;font-weight:700;transition:transform .17s,background .17s}
+    .button:hover{transform:translateY(-1px)}
+    .button.primary{background:#f6f3f5;color:#161318;border-color:#f6f3f5}
+    .button.soft{background:#18171a}
+    .button svg{width:18px;height:18px;flex:none}
+    .security{display:flex;align-items:start;gap:10px;margin:16px 0 0;color:#95919a;font-size:12px;line-height:1.65}
+    .security svg{flex:none;width:16px;height:16px;margin-top:1px;color:#94baaa}
+    .workspace{background:var(--sheet);border:1px solid var(--outline);border-radius:var(--r);overflow:hidden;box-shadow:0 30px 80px #0007}
+    .workspace-bar{display:flex;justify-content:space-between;align-items:center;padding:22px 25px;border-bottom:1px solid #262629}
+    .workspace-title{font-size:18px;font-weight:750;letter-spacing:-.4px}
+    .status{font-size:11px;color:#9c98a2;font-weight:700;letter-spacing:.06em}
+    .layout{display:grid;grid-template-columns:1fr 1fr;gap:0}
+    .feature{padding:24px;border-right:1px solid #252527;min-height:242px;display:flex;flex-direction:column;justify-content:space-between}
+    .feature:last-child{border-right:none}
+    .feature-label{font-size:11px;letter-spacing:.16em;color:#a39fa8;font-weight:800}
+    .circles{display:flex;align-items:center;gap:12px;margin:16px 0}
+    .circle{width:62px;height:62px;border-radius:50%;border:2px solid var(--accent);padding:4px;display:grid;place-items:center}
+    .circle span{display:grid;place-items:center;border-radius:50%;background:#282529;width:100%;height:100%;color:#aaa;font-size:23px}
+    .circle.dim{border-color:#3b383e}
+    .feature h2{font-size:20px;letter-spacing:-.5px;margin:0 0 8px}
+    .feature p{font-size:13px;color:#a7a3ac;line-height:1.7;margin:0}
+    .feature-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px}
+    .text-link{font-size:13px;font-weight:750;color:#f3c2d3}
+    .message-skeleton{margin:21px 0 8px;display:grid;gap:14px}
+    .message-row{display:flex;gap:10px;align-items:center}
+    .avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(140deg,#3a343a,#272428)}
+    .lines{flex:1}
+    .lines i{display:block;height:7px;background:#373238;border-radius:20px;margin-bottom:6px;width:46%}
+    .lines i:last-child{width:74%;background:#2c292e;margin-bottom:0}
+    .workspace-note{border-top:1px solid #27262a;padding:13px 24px;background:#141315;color:#aaa4ae;line-height:1.6;font-size:12px}
+    .section{padding:60px 0 0}
+    .section h2{margin:0 0 12px;font-size:27px;letter-spacing:-.05em}
+    .section .intro{font-size:14px;color:#aaa5af;line-height:1.8;max-width:680px;margin:0 0 24px}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .step{background:#151416;border:1px solid #27262a;border-radius:18px;padding:22px;min-height:177px}
+    .number{color:var(--accent);font-size:12px;letter-spacing:.16em;font-weight:800}
+    .step strong{display:block;margin:13px 0 8px;font-size:15px}
+    .step p{font-size:13px;line-height:1.75;color:#aaa5af;margin:0;word-break:keep-all}
+    .step a{color:#f7c1d3;text-decoration:underline;text-underline-offset:3px}
+    .install-card{background:linear-gradient(105deg,#1f1820,#141316 62%);border:1px solid #403039;border-radius:20px;padding:23px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .install-card strong{font-size:16px}
+    .install-card p{font-size:13px;color:#bcb3bd;line-height:1.8;margin:7px 0 0}
+    .facts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .fact{border:1px solid #242226;border-radius:15px;padding:17px}
+    .fact b{font-size:14px}
+    .fact p{font-size:12px;line-height:1.7;color:#a19aa4;margin:7px 0 0}
+    .site-footer{border-top:1px solid #1e1c20;margin:67px 0 0;padding:20px 0 34px;display:flex;justify-content:space-between;gap:12px;color:#817d85;font-size:12px;line-height:1.5}
+    .site-footer a{text-decoration:underline;text-underline-offset:3px}
+    .mini-nav{display:none}
+    @media(max-width:680px){
+      .wrap{padding:0 18px}.site-header{height:73px}.logo{font-size:21px}.hero{padding:46px 0 34px}h1{font-size:clamp(37px,10vw,53px)}
+      .lead{font-size:14px}.actions{display:grid;grid-template-columns:1fr}.button{width:100%}
+      .layout{grid-template-columns:1fr}.feature{min-height:190px;border-right:0;border-bottom:1px solid #252527;padding:22px}.feature:last-child{border-bottom:0}
+      .steps,.facts{grid-template-columns:1fr}.step{min-height:0}.install-card{flex-direction:column;align-items:stretch}.site-footer{flex-direction:column}
+      body{padding-bottom:calc(75px + env(safe-area-inset-bottom))}
+      .mini-nav{display:flex;position:fixed;z-index:20;left:0;bottom:0;right:0;height:calc(72px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:#0d0c0eee;border-top:1px solid #29262c;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+      .mini-nav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;color:#f6f2f5}
+      .mini-nav svg{width:22px;height:22px}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site-header">
+      <a href="./" class="logo" aria-label="Quietgram 홈">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.7" y="2.7" width="18.6" height="18.6" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.7" cy="6.3" r="1" fill="currentColor" stroke="none"/></svg>
+        Quietgram
+      </a>
+      <span class="version">STORIES + DM</span>
+    </header>
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Less scrolling, more connecting</p>
+        <h1>대화는 계속.<br><em>무한 스크롤은 그만.</em></h1>
+        <p class="lead">Quietgram은 Instagram의 스토리와 DM으로 가는 길만 남긴 미니멀 인터페이스야. 실제 로그인은 Instagram 공식 웹사이트에서 진행하고, Safari 확장 스크립트로 피드·릴스 노출을 줄일 수 있어.</p>
+        <div class="actions">
+          <a class="button primary" id="loginBtn" href="https://www.instagram.com/accounts/login/" rel="noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M10 8l4 4-4 4m-8-4h8"/></svg>Instagram에서 로그인</a>
+          <a class="button soft" href="#install">피드·릴스 숨기는 방법</a>
+        </div>
+        <p class="security"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2 4.5 5v6c0 5 3.4 8.6 7.5 11 4.1-2.4 7.5-6 7.5-11V5L12 2Z"/><path d="m9 12 2 2 4-4"/></svg>비밀번호는 Quietgram이 받지 않아. 로그인 버튼은 Instagram 공식 사이트로 이동해.</p>
+      </section>
+      <section class="workspace" aria-label="스토리와 DM 바로가기">
+        <div class="workspace-bar"><span class="workspace-title">Your space, simplified.</span><span class="status">NO FEED · NO REELS</span></div>
+        <div class="layout">
+          <article class="feature">
+            <div><div class="feature-label">STORIES</div><div class="circles" aria-hidden="true"><div class="circle dim"><span>＋</span></div><div class="circle"><span>◌</span></div><div class="circle"><span>◌</span></div><div class="circle"><span>◌</span></div></div></div>
+            <div><h2>스토리만 보기</h2><p>실제 스토리는 로그인한 Instagram 웹에서 열려. 이 원은 디자인 예시이며 친구 데이터를 읽어오지 않아.</p><div class="feature-bottom"><span class="feature-label">Instagram web</span><a class="text-link" href="https://www.instagram.com/" rel="noreferrer">스토리 열기 ↗</a></div></div>
+          </article>
+          <article class="feature">
+            <div><div class="feature-label">MESSAGES</div><div class="message-skeleton" aria-hidden="true"><div class="message-row"><span class="avatar"></span><span class="lines"><i></i><i></i></span></div><div class="message-row"><span class="avatar"></span><span class="lines"><i></i><i></i></span></div><div class="message-row"><span class="avatar"></span><span class="lines"><i></i><i></i></span></div></div></div>
+            <div><h2>DM만 확인하기</h2><p>실제 대화 목록과 메시지는 Instagram의 메시지 화면에서 그대로 이용해.</p><div class="feature-bottom"><span class="feature-label">Instagram web</span><a class="text-link" href="https://www.instagram.com/direct/inbox/" rel="noreferrer">DM 열기 ↗</a></div></div>
+          </article>
+        </div>
+        <div class="workspace-note">이 페이지는 시작 화면이야. Instagram 콘텐츠를 복사해 보여주는 가짜 클라이언트가 아니며, 실제 스토리·DM은 Instagram 웹페이지에서 작동해.</div>
+      </section>
+      <section class="section" id="install">
+        <h2>아이패드에서 사용하기</h2>
+        <p class="intro">Mac도 Xcode도 필요 없어. 실제 Instagram 페이지의 피드와 릴스 영역을 숨기려면 Safari용 사용자 스크립트 설치가 필요해.</p>
+        <div class="steps">
+          <article class="step"><div class="number">01</div><strong>Userscripts 설치</strong><p><a href="https://apps.apple.com/app/userscripts/id1463298887" rel="noreferrer">App Store에서 Userscripts</a>를 설치하고 스크립트 저장 폴더를 정해.</p></article>
+          <article class="step"><div class="number">02</div><strong>Quietgram 스크립트 추가</strong><p>아래 다운로드 링크로 <code>Quietgram.user.js</code>를 저장 폴더에 넣고 Safari 확장 프로그램을 켜.</p></article>
+          <article class="step"><div class="number">03</div><strong>공식 사이트에서 로그인</strong><p>Safari에서 instagram.com에 로그인한 뒤 새로고침해. 스토리·DM을 사용하며 피드·릴스 제한을 확인해.</p></article>
+        </div>
+      </section>
+      <section class="section" aria-labelledby="downloadTitle">
+        <div class="install-card"><div><strong id="downloadTitle">Quietgram for Safari</strong><p>Safari에서 instagram.com에만 적용되는 사용자 스크립트야. 서버나 계정 데이터 수집 기능은 없어.</p></div><a class="button primary" href="https://raw.githubusercontent.com/kuchipatchi09/instagram/main/Quietgram.user.js" target="_blank" rel="noopener noreferrer">스크립트 받기 ↗</a></div>
+      </section>
+      <section class="section" aria-labelledby="limitsTitle">
+        <h2 id="limitsTitle">알아둘 점</h2>
+        <div class="facts">
+          <div class="fact"><b>왜 사이트 안에서 로그인하지 않나요?</b><p>브라우저 보안 정책과 Instagram의 접근 제한 때문에 GitHub Pages가 개인 Instagram 세션을 가져와 DM·스토리를 직접 표시할 수 없어. 인증 정보는 공식 사이트에서만 입력해.</p></div>
+          <div class="fact"><b>스토리가 안 보인다면?</b><p>웹에서 스토리를 제공하지 않는 계정이나 변경된 레이아웃은 스크립트로 복구하지 못할 수 있어. Instagram 웹 원본에서 스토리가 먼저 표시되는지 확인해.</p></div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><span>© Quietgram · 비공식 개인 프로젝트. Meta/Instagram과 제휴 관계가 없어.</span><a href="https://github.com/kuchipatchi09/instagram" target="_blank" rel="noopener">GitHub source ↗</a></footer>
+  </div>
+  <nav class="mini-nav" aria-label="Instagram 바로가기">
+    <a href="https://www.instagram.com/" rel="noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4z"/></svg>스토리</a>
+    <a href="https://www.instagram.com/direct/inbox/" rel="noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 11.4a9 9 0 0 1-9 9 9 9 0 0 1-4.1-.9L3 20l1.3-4A9 9 0 1 1 21 11.4Z"/></svg>DM</a>
+  </nav>
+</body>
+</html>
